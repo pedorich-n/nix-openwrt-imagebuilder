@@ -45,7 +45,6 @@
   packages."mips_24kc"."telephony".sha256 = "sha256-wLxGoRpxtItlA8eVjf13A76IqVrNAjjVTgS4XVBFm+4=";
   targets."realtek"."rtl930x".sha256 = "sha256-gLdvvsBKzs6fa3IdQUSxvQyUJFG1FqGC/wJ+2JZ6Ajc=";
   targets."realtek"."rtl930x".packagesArch = "mips_24kc";
-  targets."realtek"."rtl931x".sha256 = "sha256-t86KVXhUrtP5hwdcFwk1uZZDru40wxDsuwICCA57CZA=";
   targets."mpc85xx"."p2020".sha256 = "sha256-S50Rg8o9ISWpMdG/ZDBKrP1dfTDHAoA/lAPHdkUrleg=";
   targets."mpc85xx"."p2020".packagesArch = "powerpc_8540";
   packages."powerpc_8540"."base".sha256 = "sha256-5Fu8RddT9aFYref5hQaomjcWNxHTlMBeTxPlliw0YAY=";
@@ -71,7 +70,6 @@
   packages."mips64_octeonplus"."packages".sha256 = "sha256-X9mfOLxjwxHgNrQS9uHzQ6QX/0h8Ddcz5PM7Sb07azo=";
   packages."mips64_octeonplus"."routing".sha256 = "sha256-6+xOg+93NQ1ywJwX2l4Ze1c1jWb8paH0XRXYLTWb2w8=";
   packages."mips64_octeonplus"."telephony".sha256 = "sha256-oAXgzJ9RVz8qIQqQ+NS4gu7SV3o73MiUAelRjFq/VBI=";
-  targets."malta"."be".sha256 = "sha256-E3vOhcGManvgWVxvFIcU6Fah7uCxzcnSjjfOxdW5DtY=";
   targets."pistachio"."generic".sha256 = "sha256-RRB3nbErnoe0J16U0cw+cFchevTRaXDntBPd6Q0djwg=";
   targets."pistachio"."generic".packagesArch = "mipsel_24kc_24kf";
   packages."mipsel_24kc_24kf"."base".sha256 = "sha256-hglKQQEUj/dATGWLUIWgIMPt1Navli32wIQoiH/U0ZY=";
@@ -86,7 +84,6 @@
   packages."arm_cortex-a9_vfpv3-d16"."packages".sha256 = "sha256-F6Sd1f3HMsfyKwX0A0K8/rFfktPs5ieDEpO3AzlB4/Q=";
   packages."arm_cortex-a9_vfpv3-d16"."routing".sha256 = "sha256-WNFOai9lO9/2HUajTlcq9tKmMzF39TgZxgwDFdwlBUo=";
   packages."arm_cortex-a9_vfpv3-d16"."telephony".sha256 = "sha256-zT6yfQ680minOEViuoQabhEN6ATBYa1OxTu6M8h7Mmw=";
-  targets."imx"."cortexa7".sha256 = "sha256-rq71ATBLCUzBrf0SADnsPcaFPUaZcoo9cfNYnsxb9d8=";
   targets."imx"."cortexa9".sha256 = "sha256-kC/qRlFY2wxtlgAEuurc8xa+M2upxjTgrJi7CmFkb+U=";
   targets."imx"."cortexa9".packagesArch = "arm_cortex-a9_neon";
   packages."arm_cortex-a9_neon"."base".sha256 = "sha256-UlvLn7p/R32kxdQl3a13O+TM3e5Uu+GYHyrfuQjWmSM=";
@@ -124,7 +121,6 @@
   targets."ath79"."tiny".packagesArch = "mips_24kc";
   targets."ath79"."nand".sha256 = "sha256-wCl1Sun3QfF1Wzd6cRfEz41e6GPocrUV5rgfiTKrZ7I=";
   targets."ath79"."nand".packagesArch = "mips_24kc";
-  targets."octeontx"."generic".sha256 = "sha256-j740nOE6tAvJx9hg2WYktwBwZ3USuOGl0qVn5IUtFy0=";
   targets."bcm27xx"."bcm2711".sha256 = "sha256-579ubcIssib50fVNKfKAhpXpXvWFcuPamsAzsZeE6YA=";
   targets."bcm27xx"."bcm2711".packagesArch = "aarch64_cortex-a72";
   packages."aarch64_cortex-a72"."base".sha256 = "sha256-8ztPpzYnkgPchKpaBUw9f9l70p8/8nt+BBFou3GcsNc=";
@@ -174,8 +170,6 @@
   targets."mvebu"."cortexa72".packagesArch = "aarch64_cortex-a72";
   targets."mvebu"."cortexa9".sha256 = "sha256-P04j4s+g0IqRVeD5GeiO5kfrIV/iAl8miWcAx6CnBD4=";
   targets."mvebu"."cortexa9".packagesArch = "arm_cortex-a9_vfpv3-d16";
-  targets."lantiq"."ase".sha256 = "sha256-xDbRRCsmsNmFNpx7fPxthDzwPGUGv2nFDoJeE6iYkI0=";
-  targets."lantiq"."xway_legacy".sha256 = "sha256-KibsVRieAzAl5uKPdGOGUGLUTXIj4dhhG7FQJW9Ttog=";
   targets."lantiq"."xway".sha256 = "sha256-ePvh5f9L6spSJp/tyvHA1ha26V5gQ43eBLKD7z4T6rs=";
   targets."lantiq"."xway".packagesArch = "mips_24kc";
   targets."lantiq"."xrx200".sha256 = "sha256-znroVUs3yYFgXeTK7DUh3cWeDBXTdWNjnhWPSbbRYug=";
@@ -212,9 +206,6 @@
   packages."arm_cortex-a5_vfpv4"."packages".sha256 = "sha256-yC261tG3sjf4s19zaFZolBUxGBvbZhgMYujQLLQQ8vM=";
   packages."arm_cortex-a5_vfpv4"."routing".sha256 = "sha256-bSWWwCgGpywM7iNurTn1n9kAupQwO1uLQwhSnVn1YHQ=";
   packages."arm_cortex-a5_vfpv4"."telephony".sha256 = "sha256-85GzwSg5XKHn29QCyaopEdq1GDV2GwSq6XEWE++7W5c=";
-  targets."armvirt"."64".sha256 = "sha256-GylOvdjt8QopXNh5AQpiGwEMMs5++kNbxdonnQYfUfk=";
-  targets."armvirt"."32".sha256 = "sha256-7ONI0D81nDrQLc53MgbJtjdi1NbU+AAMDXbweT4PjUw=";
-  targets."mxs"."generic".sha256 = "sha256-JEQIdLU96qOsxe1cIPICwZcE/mzR/3J4DCUBIyIAWA0=";
   targets."ipq40xx"."mikrotik".sha256 = "sha256-SBqJljC3dmeW49xzb8I47uvvn/ahQYSGWqVPYjB1dcs=";
   targets."ipq40xx"."mikrotik".packagesArch = "arm_cortex-a7_neon-vfpv4";
   targets."ipq40xx"."generic".sha256 = "sha256-HKyStIF17ftKLTwTrS1zFmlJ0+FO2n+P+6yJC4FD5jk=";

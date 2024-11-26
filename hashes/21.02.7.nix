@@ -61,7 +61,6 @@
   packages."mips64_octeonplus"."packages".sha256 = "sha256-qpWQ8iLHe5TMkvkFybIhFJ5hnd+auwdySb+xVqCPU4A=";
   packages."mips64_octeonplus"."routing".sha256 = "sha256-NHPzL4tVjAbiq8Dln4aK/DpGHvncmyimihht9qGooR8=";
   packages."mips64_octeonplus"."telephony".sha256 = "sha256-W9IYxar4mInm/e6MQBQYLooqBpgMMl3SBFGX+NNSWGg=";
-  targets."malta"."be".sha256 = "sha256-+ShuNVtbhnCeC1/fhyGwLdjdO6/GtncZSqPgGZhRWbE=";
   targets."pistachio"."generic".sha256 = "sha256-QtY4YYQFHvAMIN3ImgiRWYt+SanT3TRWcao6evw6rv8=";
   targets."pistachio"."generic".packagesArch = "mipsel_24kc_24kf";
   packages."mipsel_24kc_24kf"."base".sha256 = "sha256-La8LiAlU8vqOennFJPvvIx/TdT1jrRk4yVv5a56C0cc=";
@@ -111,7 +110,6 @@
   targets."ath79"."tiny".packagesArch = "mips_24kc";
   targets."ath79"."nand".sha256 = "sha256-yDTGIotsQgShUhcy9QcM9Et0NNBrRmkeZ8KMYwxRX6E=";
   targets."ath79"."nand".packagesArch = "mips_24kc";
-  targets."octeontx"."generic".sha256 = "sha256-DEjChoCLzlfyxgJ2ywsxOJzWSDDrzchr6GQUYrK8jyg=";
   targets."bcm27xx"."bcm2711".sha256 = "sha256-OAWE9cxKr342EdUlLPz+ywZXxHdNsl3JRH7qAlYTKgs=";
   targets."bcm27xx"."bcm2711".packagesArch = "aarch64_cortex-a72";
   packages."aarch64_cortex-a72"."base".sha256 = "sha256-HdLx4mQkcCqUlFjbOKLqgGNmT0reE7EdV2Bj0djMeAc=";
@@ -168,8 +166,6 @@
   targets."mvebu"."cortexa72".packagesArch = "aarch64_cortex-a72";
   targets."mvebu"."cortexa9".sha256 = "sha256-GwyN7q4Mha8/FnAblDygr3dUZaGdvZyKCpwvm21nQM0=";
   targets."mvebu"."cortexa9".packagesArch = "arm_cortex-a9_vfpv3-d16";
-  targets."lantiq"."ase".sha256 = "sha256-ukzwEUsTo3d1QWTIGwJvusmc6Dhg37U/KVINYUeYkr8=";
-  targets."lantiq"."xway_legacy".sha256 = "sha256-jKGmUW/if+o3wsSiLzZVLoLZJ49PNmz0AOOdQXhRl30=";
   targets."lantiq"."xway".sha256 = "sha256-8e97YG+I0BJKKOz3gEh6y5oY5g8gFkbuxCDSfNik3V0=";
   targets."lantiq"."xway".packagesArch = "mips_24kc";
   targets."lantiq"."xrx200".sha256 = "sha256-3LZyRRQOxjIBcGWSuvpLvjS/WPCq8V1ZB3qU/fXP4VM=";
@@ -199,9 +195,6 @@
   packages."arm_cortex-a5_vfpv4"."packages".sha256 = "sha256-c3br0mqKmp6bG2rlYmRJPk1PsLwlzsnGUMIpwRwJxDw=";
   packages."arm_cortex-a5_vfpv4"."routing".sha256 = "sha256-jooFGMbGgqp0r4zagJo/P8WaYr6wcaXxwO6yUwvHmYY=";
   packages."arm_cortex-a5_vfpv4"."telephony".sha256 = "sha256-DiWIxjm9zzaXfztPOw5dy9B2WOt0xnV0REfcSSETteM=";
-  targets."armvirt"."64".sha256 = "sha256-Uiw4qLWzPsqMYFlQSsFwzDG196nnXZ+1SRKa9RmMypw=";
-  targets."armvirt"."32".sha256 = "sha256-/hEJaJ+vfmWqO61usjvNO+2K5VQWiixA/siXCE7jgM8=";
-  targets."mxs"."generic".sha256 = "sha256-HE2Qj76YfrSx6+TGpG2xI+/XIytWiY1/DC/BQJHU4H4=";
   targets."ipq40xx"."mikrotik".sha256 = "sha256-9kK6Mypt1W2RuOV0q0R4Cg9o9c7HUQVMeQaxyUtYw9w=";
   targets."ipq40xx"."mikrotik".packagesArch = "arm_cortex-a7_neon-vfpv4";
   targets."ipq40xx"."generic".sha256 = "sha256-5SzZGDQV2r5EL4HnDL4uC+Nl87jxBD1DSySaINblFw0=";
