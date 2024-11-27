@@ -87,22 +87,43 @@ let
 
   baseUrl = "https://downloads.openwrt.org";
   releaseUrl = if release == "snapshot" then "${baseUrl}/snapshots" else "${baseUrl}/releases/${release}";
-  variantFiles = fetchSums "${releaseUrl}/targets/${target}/${variant}" sha256;
+  targetVarianUrl = "${releaseUrl}/targets/${target}/${variant}";
+
+  variantFiles = fetchSums targetVarianUrl sha256;
+
+  profiles =
+    if variantFiles ? "profiles.json"
+    then lib.importJSON variantFiles."profiles.json"
+    else null;
+
+  arch = if packagesArch == null
+         then profiles.arch_packages
+         else packagesArch;
+
+  kernel_info = if (profiles != null && profiles ? linux_kernel) 
+                then profiles.linux_kernel 
+                else {};
+
+  feedUrl = feed: if (feed == "kmods") 
+                  then if (kernel_info != {}) 
+                       then "${targetVarianUrl}/kmods/${kernel_info.version}-${kernel_info.release}-${kernel_info.vermagic}"
+                       else builtins.abort "Kernel info required for kmods, but not found!"
+                  else "${releaseUrl}/packages/${arch}/${feed}";
 
   feedsPackagesFile = builtins.mapAttrs (feed: { sha256 }:
     fetchurl {
-      url = "${releaseUrl}/packages/${arch}/${feed}/Packages";
+      url = "${feedUrl feed}/Packages";
       inherit sha256;
     }
   ) feedsSha256;
 
   packagesByFeed = builtins.mapAttrs (feed: packagesFile:
-    parsePackages "${releaseUrl}/packages/${arch}/${feed}" (builtins.readFile packagesFile)
+    parsePackages (feedUrl feed) (builtins.readFile packagesFile)
   ) feedsPackagesFile;
 
   corePackages =
     parsePackages
-      "${releaseUrl}/targets/${target}/${variant}/packages"
+      "${targetVarianUrl}/packages"
       (builtins.readFile variantFiles."packages/Packages");
 
   realPackages =
@@ -190,14 +211,6 @@ let
     in
     deps: builtins.attrNames (builtins.foldl' addDep { } (applyMinusDeps deps));
 
-  profiles =
-    if variantFiles ? "profiles.json"
-    then lib.importJSON variantFiles."profiles.json"
-    else null;
-
-  arch = if packagesArch == null
-         then profiles.arch_packages
-         else packagesArch;
 
 in {
   inherit allPackages corePackages packagesByFeed expandDeps variantFiles profiles arch;
