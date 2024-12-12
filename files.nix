@@ -8,6 +8,8 @@
 , sha256
 # Checksum of a feed's `Packages` file
 , feedsSha256
+# Attrset where key is kmod_target and value is checksum of `Packages` file
+, kmodsSha256
 # Manually specify packages' arch for OpenWRT<19 releases without profiles.json
 , packagesArch ? null
 }:
@@ -96,26 +98,36 @@ let
     then lib.importJSON variantFiles."profiles.json"
     else null;
 
-  arch = if packagesArch == null
-         then profiles.arch_packages
-         else packagesArch;
+  arch =
+    if packagesArch == null
+    then profiles.arch_packages
+    else packagesArch;
 
-  kernel_info = if (profiles != null && profiles ? linux_kernel) 
-                then profiles.linux_kernel 
-                else {};
+  kernelInfo =
+    if (profiles != null && profiles ? linux_kernel)
+    then profiles.linux_kernel
+    else { };
 
-  feedUrl = feed: if (feed == "kmods") 
-                  then if (kernel_info != {}) 
-                       then "${targetVarianUrl}/kmods/${kernel_info.version}-${kernel_info.release}-${kernel_info.vermagic}"
-                       else builtins.abort "Kernel info required for kmods, but not found!"
-                  else "${releaseUrl}/packages/${arch}/${feed}";
+  kmodsTarget = lib.throwIf (kernelInfo == { }) "No Kernel info found!"
+    "${kernelInfo.version}-${kernelInfo.release}-${kernelInfo.vermagic}";
+
+  kmodsVirtualFeed = lib.optionalAttrs (release == "snapshot" || lib.versionAtLeast release "24") {
+    "kmods" = kmodsSha256.${kmodsTarget} or (builtins.throw "Failed to resolve Kmods for ${kmodsTarget}");
+  };
+
+  allFeeds = feedsSha256 // kmodsVirtualFeed;
+
+  feedUrl = feed:
+    if (feed == "kmods")
+    then "${targetVarianUrl}/kmods/${kmodsTarget}"
+    else "${releaseUrl}/packages/${arch}/${feed}";
 
   feedsPackagesFile = builtins.mapAttrs (feed: { sha256 }:
     fetchurl {
       url = "${feedUrl feed}/Packages";
       inherit sha256;
     }
-  ) feedsSha256;
+  ) allFeeds;
 
   packagesByFeed = builtins.mapAttrs (feed: packagesFile:
     parsePackages (feedUrl feed) (builtins.readFile packagesFile)
@@ -126,7 +138,7 @@ let
       "${targetVarianUrl}/packages"
       (builtins.readFile variantFiles."packages/Packages");
 
-  realPackages =
+  realPackages = 
     (builtins.foldl' (a: b: a // b) { } (builtins.attrValues packagesByFeed))
     // corePackages;
 

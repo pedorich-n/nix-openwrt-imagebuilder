@@ -21,6 +21,10 @@
   (
     import ./hashes/${release}.nix
   ).packages.${packagesArch}
+, kmodsSha256 ?
+  (
+    import ./hashes/${release}.nix
+  ).kmods.${target}.${variant}
 # Extra OpenWRT packages (can be prefixed with "-")
 , packages ? []
 # Include extra files
@@ -37,7 +41,7 @@
 let
   inherit (pkgs) lib;
   inherit (import ./files.nix {
-    inherit pkgs release target variant sha256 feedsSha256 packagesArch;
+    inherit pkgs release target variant sha256 feedsSha256 kmodsSha256 packagesArch;
   }) variantFiles profiles expandDeps corePackages packagesByFeed allPackages;
 
   requiredPackages = profiles.default_packages or (

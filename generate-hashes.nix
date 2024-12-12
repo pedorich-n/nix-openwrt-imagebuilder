@@ -19,7 +19,7 @@ pkgs.writeShellApplication {
     fi
 
     KMODS_SEPARATE=false
-    if [[ "''${RELEASE}" == "snapshot" || "''${RELEASE}" == 24.10* ]]; then
+    if [[ "''${RELEASE}" == "snapshot" || "''${RELEASE}" == 24* ]]; then
       KMODS_SEPARATE=true
     fi
 
@@ -32,15 +32,27 @@ pkgs.writeShellApplication {
       echo "- ''${TARGET}/''${VARIANT}" >&2
 
       BASE_URL="''${RELEASE_URL}/targets/''${TARGET}/''${VARIANT}"
-      SUM=$(nix store prefetch-file --json "''${BASE_URL}/sha256sums" 2>/dev/null | jq -r .hash)
 
-      if [ -n "$SUM" ]; then
-        echo "  targets.\"''${TARGET}\".\"''${VARIANT}\".sha256 = \"''${SUM}\";"
+      SUMS_HASH=$(nix store prefetch-file --json "''${BASE_URL}/sha256sums" 2>/dev/null | jq -r .hash)
+      if [ -n "$SUMS_HASH" ]; then
+        echo "  targets.\"''${TARGET}\".\"''${VARIANT}\".sha256 = \"''${SUMS_HASH}\";"
 
         PROFILES=$(curl --silent --fail "''${BASE_URL}/profiles.json" || true)
         if [ -z "$PROFILES" ]; then
           echo "Failed to fetch ''${BASE_URL}/profiles.json" >&2
         else
+          if ''${KMODS_SEPARATE}; then
+            KERNEL_RELEASE=$(jq -r '.linux_kernel.release' <<< "''${PROFILES}")
+            KERNEL_VERSION=$(jq -r '.linux_kernel.version' <<< "''${PROFILES}")
+            KERNEL_VERMAGIC=$(jq -r '.linux_kernel.vermagic' <<< "''${PROFILES}")
+
+            KMODS_TARGET="''${KERNEL_VERSION}-''${KERNEL_RELEASE}-''${KERNEL_VERMAGIC}"
+
+            echo "  - kmods" >&2
+            KMODS_HASH=$(nix store prefetch-file --json "''${BASE_URL}/kmods/''${KMODS_TARGET}/Packages" 2>/dev/null | jq -r .hash)
+            echo "  kmods.\"''${TARGET}\".\"''${VARIANT}\".\"''${KMODS_TARGET}\".sha256 = \"''${KMODS_HASH}\";"
+          fi
+
           ARCH=$(jq -r '.arch_packages' <<< "''${PROFILES}")
           if [ -n "$ARCH" ]; then
             echo "  targets.\"''${TARGET}\".\"''${VARIANT}\".packagesArch = \"''${ARCH}\";"
@@ -48,22 +60,10 @@ pkgs.writeShellApplication {
             if [ -z "''${arches_fetched[$ARCH]:-}" ]; then
               for FEED in ''${FEEDS}; do
                 echo "  - ''${FEED}" >&2
-                SUM=$(nix store prefetch-file --json "''${RELEASE_URL}/packages/''${ARCH}/''${FEED}/Packages" 2>/dev/null | jq -r .hash)
-                echo "  packages.\"''${ARCH}\".\"''${FEED}\".sha256 = \"''${SUM}\";"
+                PACKAGES_HASH=$(nix store prefetch-file --json "''${RELEASE_URL}/packages/''${ARCH}/''${FEED}/Packages" 2>/dev/null | jq -r .hash)
+                echo "  packages.\"''${ARCH}\".\"''${FEED}\".sha256 = \"''${PACKAGES_HASH}\";"
               done
               
-              if ''${KMODS_SEPARATE}; then
-                KERNEL_RELEASE=$(jq -r '.linux_kernel.release' <<< "''${PROFILES}")
-                KERNEL_VERSION=$(jq -r '.linux_kernel.version' <<< "''${PROFILES}")
-                KERNEL_VERMAGIC=$(jq -r '.linux_kernel.vermagic' <<< "''${PROFILES}")
-
-                KMODS_TARGET="''${KERNEL_VERSION}-''${KERNEL_RELEASE}-''${KERNEL_VERMAGIC}"
-
-                echo "  - kmods" >&2
-                SUM=$(nix store prefetch-file --json "''${BASE_URL}/kmods/''${KMODS_TARGET}/Packages" 2>/dev/null | jq -r .hash)
-                echo "  packages.\"''${ARCH}\".\"kmods\".sha256 = \"''${SUM}\";"
-              fi
-
               arches_fetched[$ARCH]="done"
             fi
           fi
